@@ -9,8 +9,21 @@ verify_ssl = true
 name = "aliyun"
 
 [dev-packages]
+tox = "*"
+flake8 = "*"
+isort = "*"
+
+pytest = "*"
+pytest-cov = "*"
+pytest-mock = "*"
+pytest-asyncio = "*"
+pytest-aiohttp = "*"
 
 [packages]
+pydispatcher = "*"
+
+aiohttp = "*"
+asyncio-periodic = "*"
 
 [requires]
 python_version = "3.7"
