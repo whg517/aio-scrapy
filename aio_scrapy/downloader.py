@@ -13,7 +13,7 @@ from yarl import URL
 from aio_scrapy import signals
 
 if TYPE_CHECKING:
-    from proxypool.scrapy.crawler import Crawler
+    from aio_scrapy.crawler import Crawler
 
 logger = logging.getLogger(__name__)
 
