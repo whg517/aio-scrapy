@@ -7,8 +7,8 @@ from aio_scrapy.pipelines.base import BasePipeline
 from aio_scrapy.settings import Settings
 
 if TYPE_CHECKING:
-    from examples.demo import Spider
     from aio_scrapy.crawler import Crawler
+    from examples.demo import Spider
 
 
 class FilePipeline(BasePipeline):

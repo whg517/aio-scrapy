@@ -1,10 +1,10 @@
 import inspect
 
 import pytest
+from aio_scrapy import signals
 
-from proxypool.scrapy import signals
-from proxypool.scrapy.spiders import BaseSpider
-from proxypool.scrapy.utils.test import get_crawler
+from aio_scrapy.spiders import BaseSpider
+from aio_scrapy.utils.test import get_crawler
 
 
 class TestBaseSpider:
@@ -45,7 +45,7 @@ class TestBaseSpider:
             async def closed(self, reason):
                 self.close_called = True
 
-        crawler = get_crawler(loop)
+        crawler = get_crawler(DemoSpider)
         spider = DemoSpider.from_crawl(crawler, name='demo')
         await crawler.signals.send(signals.spider_closed, spider=spider, reason=None)
         assert spider.close_called

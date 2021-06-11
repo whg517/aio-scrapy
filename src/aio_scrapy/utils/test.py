@@ -2,8 +2,8 @@ from asyncio import AbstractEventLoop
 from typing import TYPE_CHECKING, Dict, Optional, Type, Union
 
 if TYPE_CHECKING:
-    from aio_scrapy.spiders import BaseSpider
     from aio_scrapy.settings import Settings
+    from aio_scrapy.spiders import BaseSpider
 
 
 def get_crawler(

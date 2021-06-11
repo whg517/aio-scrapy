@@ -10,18 +10,17 @@ name = "aliyun"
 
 [dev-packages]
 tox = "*"
-flake8 = "*"
 isort = "*"
-
+pylint = "*"
 pytest = "*"
 pytest-cov = "*"
 pytest-mock = "*"
 pytest-asyncio = "*"
 pytest-aiohttp = "*"
+lock = "*"
 
 [packages]
 pydispatcher = "*"
-
 aiohttp = "*"
 asyncio-periodic = "*"
 
