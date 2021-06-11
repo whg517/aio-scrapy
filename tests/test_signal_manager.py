@@ -1,11 +1,17 @@
 import asyncio
+from typing import Any
 
 import pytest
 from pydispatch import dispatcher
 
 from aio_scrapy.signal_manager import SignalManager
+from pydispatch.dispatcher import getAllReceivers
 
 start_signal = object()
+
+
+def get_all_connection(sender: Any):
+    return dispatcher.connections.get(id(sender), [])
 
 
 def start(x):
@@ -39,28 +45,28 @@ class TestSignalManager:
 
     def test_connect(self, signal_manager):
         signal_manager.connect(start, start_signal)
-        assert len(dispatcher.connections) == 1
+        assert len(get_all_connection(self)) == 1
 
     def test_disconnect(self, signal_manager):
-        assert len(dispatcher.connections) == 0
+        assert len(get_all_connection(self)) == 0
 
         signal_manager.connect(start, start_signal)
-        assert len(dispatcher.connections) == 1
+        assert len(get_all_connection(self)) == 1
 
         signal_manager.disconnect(async_start, start_signal)
-        assert len(dispatcher.connections) == 1
+        assert len(get_all_connection(self)) == 1
 
         signal_manager.disconnect(start, start_signal)
-        assert len(dispatcher.connections) == 0
+        assert len(get_all_connection(self)) == 0
 
     def test_disconnect_all(self, signal_manager):
-        assert len(dispatcher.connections) == 0
+        assert len(get_all_connection(self)) == 0
 
         signal_manager.connect(start, start_signal)
-        assert len(dispatcher.connections) == 1
+        assert len(get_all_connection(self)) == 1
 
         signal_manager.disconnect_all(start_signal)
-        assert len(dispatcher.connections) == 0
+        assert len(get_all_connection(self)) == 0
 
     @pytest.mark.asyncio
     async def test_send_async(self, signal_manager_connected_async):
@@ -74,7 +80,7 @@ class TestSignalManager:
 
     @pytest.mark.asyncio
     async def test_send_async_exception(self, mocker, signal_manager):
-        logger_mock = mocker.patch('proxypool.signal_manager.logger.error')
+        logger_mock = mocker.patch('aio_scrapy.signal_manager.logger.error')
         e = ValueError('xxx')
 
         async def demo(x):

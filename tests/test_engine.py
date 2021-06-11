@@ -1,7 +1,7 @@
 import pytest
 
-from proxypool.scrapy.crawler import Crawler
-from proxypool.scrapy.spiders import BaseSpider
+from aio_scrapy.crawler import Crawler
+from aio_scrapy.spiders import BaseSpider
 
 
 class TestExecuteEngine:
