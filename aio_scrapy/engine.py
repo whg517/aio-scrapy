@@ -88,6 +88,12 @@ class ExecutionEngine:
             return True
 
     async def _next_request(self, start_requests) -> None:
+        """
+        Schedule next request. If should revocation, it will not schedule url to queue.
+        And check spider is idle, will close or idle.
+        :param start_requests:
+        :return:
+        """
         while not self.should_revocation():
             if not await self._next_request_from_scheduler(self.spider):
                 break
@@ -106,6 +112,7 @@ class ExecutionEngine:
 
     async def crawl(self, url: URL, spider):
         """
+        Add url to scheduler queue.
         :param url:
         :param spider:
         :return:
@@ -113,7 +120,7 @@ class ExecutionEngine:
         self.scheduler.enqueue_request(url)
         await self.next_call.scheduler()
 
-    async def _next_request_from_scheduler(self, spider):
+    async def _next_request_from_scheduler(self, spider) -> bool:
         url = self.scheduler.next_request()
         if url:
             await self.next_call.scheduler()
@@ -121,7 +128,7 @@ class ExecutionEngine:
             await self.scraper.enqueue_scrape(url, response, spider)
             return True
         else:
-            return None
+            return False
 
     async def downloading(self, url: URL):
         response = await self.downloader.fetch(url)
